@@ -6,7 +6,7 @@ services:
     ports:
       - "5010:5000"
     environment:
-      - DATABASE_URL = 'postgresql://leo:1Mb63yIDi4pREud2O9gBecWNYMB3qdwX@dpg-dbdro9psrm7s73cp2ulg-a.oregon-postgres.render.com/dbexamenu2'
+      - SQLALCHEMY_DATABASE_URI=postgresql://leo:1Mb63yIDi4pREud2O9gBecWNYMB3qdwX@dpg-dbdro9psrm7s73cp2ulg-a.oregon-postgres.render.com/dbexamenu2
     deploy:
       replicas: 2
       restart_policy:

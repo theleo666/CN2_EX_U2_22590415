@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: leo
+      POSTGRES_PASSWORD: password123
+      POSTGRES_DB: dbexamenu2
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - BD
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == worker
+
+  agendatec_web:
+    image: leonard06/cn2-agendatec:latest
+    ports:
+      - "5010:5000"
+    environment:
+      - SQLALCHEMY_DATABASE_URI=postgresql://leo:password123@db:5432/dbexamenu2
+    networks:
+      - BD
+    depends_on:
+      - db
+    deploy:
+      replicas: 2
+      restart_policy:
+        condition: on-failure
+
+volumes:
+  pgdata:
+
+networks:
+  BD:
+    external: true
